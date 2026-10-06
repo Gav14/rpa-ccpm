@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: rpa-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: rpa_user
+      POSTGRES_PASSWORD: rpa_pass
+      POSTGRES_DB: rpa_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - rpa_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+
+volumes:
+  rpa_data:
