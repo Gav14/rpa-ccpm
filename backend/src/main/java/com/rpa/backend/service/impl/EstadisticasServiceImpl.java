@@ -4,12 +4,14 @@ import com.rpa.backend.repository.CultivoRepository;
 import com.rpa.backend.repository.FamiliarRepository;
 import com.rpa.backend.repository.ProductorRepository;
 import com.rpa.backend.service.EstadisticasService;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class EstadisticasServiceImpl implements EstadisticasService {
     private final ProductorRepository productorRepository;
     private final CultivoRepository cultivoRepository;
