@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface CultivoRepository extends JpaRepository<Cultivo, Long> {
 
     Optional<Cultivo> findByNombre(String nombre);
+
+    boolean existsByNombre(String nombre);
 }
