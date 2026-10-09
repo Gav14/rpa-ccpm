@@ -16,4 +16,4 @@ spring:
       hibernate:
         format_sql: true
         jdbc:
-          time_zone: UTC      # ← ESTA LÍNEA ES LA QUE ARREGLA EL ERROR
+          time_zone: UTC      
