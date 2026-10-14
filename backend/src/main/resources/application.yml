@@ -16,8 +16,4 @@ spring:
       hibernate:
         format_sql: true
         jdbc:
-<<<<<<< HEAD
           time_zone: UTC
-=======
-          time_zone: UTC      
->>>>>>> 101f71f51c865ddfcde90e88ef90292e55536e22
