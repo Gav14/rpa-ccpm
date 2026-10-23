@@ -1,6 +1,7 @@
 package com.rpa.backend.service.impl;
 
 import com.rpa.backend.dto.FamiliarRequest;
+import com.rpa.backend.dto.FamiliarResponse;
 import com.rpa.backend.dto.ProductorRequest;
 import com.rpa.backend.dto.ProductorResponse;
 import com.rpa.backend.exception.DniDuplicadoException;
@@ -145,8 +146,8 @@ public class ProductorServiceImpl implements ProductorService {
                 p.getTituloMaximo(), p.getFechaNacimiento(), p.getDepartamento(),
                 p.getMunicipio(), p.getDomicilio(),
                 p.getCultivos().stream().map(Cultivo::getNombre).toList(),
-                p.getFamiliares().stream().map(f -> new FamiliarRequest(
-                        f.getApellido(), f.getNombre(), f.getSexo(), f.getDni(),
+                p.getFamiliares().stream().map(f -> new FamiliarResponse(
+                        f.getId(), f.getApellido(), f.getNombre(), f.getSexo(), f.getDni(),
                         f.getFechaNacimiento(), f.getParentesco())).toList()
         );
     }

@@ -13,7 +13,5 @@ public interface FamiliarRepository extends JpaRepository<Familiar, Long> {
     @Query("SELECT f.parentesco, COUNT(f) FROM Familiar f GROUP BY f.parentesco")
     List<Object[]> contarPorParentesco();
 
-    @Query("SELECT COUNT(f) * 1.0 / COUNT(DISTINCT f.productor.id) FROM Familiar f")
-    Double promedioFamiliaresPorProductor();
 
 }

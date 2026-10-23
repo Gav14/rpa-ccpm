@@ -26,11 +26,16 @@ public class EstadisticasServiceImpl implements EstadisticasService {
     public Map<String, Object> obtenerEstadisticas() {
         Map<String, Object> stats = new HashMap<>();
 
-        stats.put("totalProductores", productorRepository.count());
+        long totalProductores = productorRepository.count();
+        long totalFamiliares = familiarRepository.count();
+
+        stats.put("totalProductores", totalProductores);
         stats.put("totalCultivos", cultivoRepository.count());
-        stats.put("totalFamiliares", familiarRepository.count());
+        stats.put("totalFamiliares", totalFamiliares);
+        // Promedio sobre TODOS los productores (los que no tienen familiares cuentan como 0).
+        // Si no hay productores, se devuelve null para no dividir por cero.
         stats.put("promedioFamiliaresPorProductor",
-                familiarRepository.promedioFamiliaresPorProductor());
+                totalProductores == 0 ? null : (double) totalFamiliares / totalProductores);
         stats.put("porDepartamento", aMapa(productorRepository.contarPorDepartamento()));
         stats.put("porMunicipio", aMapa(productorRepository.contarPorMunicipio()));
         stats.put("porSexo", aMapa(productorRepository.contarPorSexo()));

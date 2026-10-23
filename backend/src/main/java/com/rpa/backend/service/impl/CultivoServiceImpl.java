@@ -2,9 +2,11 @@ package com.rpa.backend.service.impl;
 
 import com.rpa.backend.dto.CultivoRequest;
 import com.rpa.backend.exception.RecursoDuplicadoException;
+import com.rpa.backend.exception.RecursoEnUsoException;
 import com.rpa.backend.exception.RecursoNoEncontradoException;
 import com.rpa.backend.model.Cultivo;
 import com.rpa.backend.repository.CultivoRepository;
+import com.rpa.backend.repository.ProductorRepository;
 import com.rpa.backend.service.CultivoService;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,12 @@ import java.util.List;
 public class CultivoServiceImpl implements CultivoService {
 
     private final CultivoRepository cultivoRepository;
+    private final ProductorRepository productorRepository;
 
-    public CultivoServiceImpl(CultivoRepository cultivoRepository) {
+    public CultivoServiceImpl(CultivoRepository cultivoRepository,
+                              ProductorRepository productorRepository) {
         this.cultivoRepository = cultivoRepository;
+        this.productorRepository = productorRepository;
     }
 
     public List<Cultivo> listar() {
@@ -44,6 +49,15 @@ public class CultivoServiceImpl implements CultivoService {
             throw new RecursoNoEncontradoException(
                 "Cultivo no encontrado con id: " + id);
         }
+        // No se permite borrar un cultivo asignado a productores: dejaría productores
+        // sin cultivos y violaría la regla "al menos un cultivo por productor".
+        long productoresQueLoUsan = productorRepository.countByCultivosId(id);
+        if (productoresQueLoUsan > 0) {
+            throw new RecursoEnUsoException(
+                "No se puede eliminar el cultivo porque está asignado a "
+                + productoresQueLoUsan + " productor(es). Quitalo de esos productores primero.");
+        }
+
         cultivoRepository.deleteById(id);
     }
 }

@@ -12,6 +12,9 @@ public interface ProductorRepository extends JpaRepository<Productor, Long>, Jpa
 
     Optional<Productor> findByDni(String dni);
 
+    // Cantidad de productores que tienen asignado el cultivo con ese id
+    long countByCultivosId(Long cultivoId);
+
     boolean existsByDni(String dni);
 
     @Query("SELECT p.departamento, COUNT(p) FROM Productor p GROUP BY p.departamento")

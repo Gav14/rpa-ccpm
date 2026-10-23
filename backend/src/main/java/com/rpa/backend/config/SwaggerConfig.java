@@ -17,7 +17,7 @@ public class SwaggerConfig {
                         .version("1.0")
                         .description("Documentación de la API REST para la gestión de productores, cultivos y familiares.")
                         .contact(new Contact()
-                                .name("Tu Nombre / Equipo")
-                                .email("tu-email@ejemplo.com")));
+                                .name("Mauro Gavilán")
+                                .url("https://github.com/Gav14/rpa-ccpm")));
     }
 }

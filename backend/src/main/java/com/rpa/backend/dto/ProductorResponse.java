@@ -17,5 +17,5 @@ public record ProductorResponse(
         String municipio,
         String domicilio,
         List<String> cultivos,
-        List<FamiliarRequest> familiares   // o un FamiliarResponse si preferís separar
+        List<FamiliarResponse> familiares
 ) {}

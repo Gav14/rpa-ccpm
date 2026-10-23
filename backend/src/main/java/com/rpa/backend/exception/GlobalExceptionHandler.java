@@ -35,6 +35,17 @@ public class GlobalExceptionHandler {
                 ));
     }
 
+    @ExceptionHandler(RecursoEnUsoException.class)
+    public ResponseEntity<Map<String, Object>> manejarEnUso(RecursoEnUsoException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of(
+                        "status", 409,
+                        "error", "Conflicto",
+                        "mensaje", ex.getMessage(),
+                        "timestamp", LocalDateTime.now().toString()
+                ));
+    }
+
     @ExceptionHandler(DniDuplicadoException.class)
     public ResponseEntity<Map<String, Object>> manejarDniDuplicado(DniDuplicadoException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)

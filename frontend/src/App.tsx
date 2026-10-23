@@ -17,9 +17,6 @@ function App() {
                     <Route path="/cultivos" element={<ListadoCultivos />} />
                     <Route path="/estadisticas" element={<Estadisticas />} />
                     <Route path="/productores/nuevo" element={<FormularioProductor />} />
-                    <Route path="/productores/:id/editar" element={<FormularioProductor />} />
-                    <Route path="/productores" element={<ListadoProductores />} />
-                    <Route path="/productores/nuevo" element={<FormularioProductor />} />
                     <Route path="/productores/:id" element={<DetalleProductor />} />
                     <Route path="/productores/:id/editar" element={<FormularioProductor />} />
                     {/* Ruta comodín: cualquier URL desconocida redirige a Home */}

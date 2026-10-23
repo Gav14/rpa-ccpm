@@ -47,10 +47,12 @@ public class CultivoController {
     }
 
     @Operation(summary = "Eliminar un cultivo",
-            description = "Elimina un cultivo del catálogo por su ID.")
+            description = "Elimina un cultivo del catálogo por su ID. "
+                    + "No se permite si algún productor lo tiene asignado.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Cultivo eliminado correctamente"),
-            @ApiResponse(responseCode = "404", description = "No existe un cultivo con ese ID")
+            @ApiResponse(responseCode = "404", description = "No existe un cultivo con ese ID"),
+            @ApiResponse(responseCode = "409", description = "El cultivo está asignado a uno o más productores")
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
