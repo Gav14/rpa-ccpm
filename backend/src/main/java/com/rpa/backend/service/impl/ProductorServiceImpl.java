@@ -14,8 +14,12 @@ import com.rpa.backend.repository.CultivoRepository;
 import com.rpa.backend.repository.ProductorRepository;
 import com.rpa.backend.repository.ProductorSpecification;
 import com.rpa.backend.service.ProductorService;
+import jakarta.persistence.criteria.Path;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.*;
+import java.io.IOException;
 
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +30,43 @@ public class ProductorServiceImpl implements ProductorService {
 
     private final ProductorRepository productorRepository;
     private final CultivoRepository cultivoRepository;
+
+    public String guardarFoto(Long id, MultipartFile archivo) {
+        Productor productor = productorRepository.findById(id)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Productor no encontrado"));
+
+        if (archivo.isEmpty()) {
+            throw new RuntimeException("El archivo está vacío");
+        }
+
+        try {
+            // 1. Crear la carpeta "uploads" si no existe
+            Path uploadDir = Paths.get("uploads");
+            if (!Files.exists(uploadDir)) {
+                Files.createDirectories(uploadDir);
+            }
+
+            // 2. Generar un nombre único para el archivo
+            String nombreOriginal = archivo.getOriginalFilename();
+            String extension = nombreOriginal != null && nombreOriginal.contains(".")
+                    ? nombreOriginal.substring(nombreOriginal.lastIndexOf("."))
+                    : ".jpg";
+            String nombreArchivo = "productor_" + id + "_" + System.currentTimeMillis() + extension;
+
+            // 3. Guardar el archivo físicamente
+            Path rutaDestino = uploadDir.resolve(nombreArchivo);
+            Files.copy(archivo.getInputStream(), rutaDestino, StandardCopyOption.REPLACE_EXISTING);
+
+            // 4. Actualizar la base de datos con la URL relativa
+            String urlFoto = "/uploads/" + nombreArchivo;
+            productor.setFotoUrl(urlFoto);
+            productorRepository.save(productor);
+
+            return urlFoto;
+        } catch (IOException e) {
+            throw new RuntimeException("Error al guardar la imagen: " + e.getMessage());
+        }
+    }
 
     public ProductorServiceImpl(ProductorRepository productorRepository,
                                 CultivoRepository cultivoRepository) {

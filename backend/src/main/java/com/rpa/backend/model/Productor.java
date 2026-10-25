@@ -23,6 +23,9 @@ public class Productor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "foto_url", length = 255)
+    private String fotoUrl;
+
     @Column(nullable = false, length = 100)
     private String apellido;
 

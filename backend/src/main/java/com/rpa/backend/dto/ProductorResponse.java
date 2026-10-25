@@ -18,4 +18,5 @@ public record ProductorResponse(
         String domicilio,
         List<String> cultivos,
         List<FamiliarResponse> familiares
+        String fotoUrl
 ) {}
