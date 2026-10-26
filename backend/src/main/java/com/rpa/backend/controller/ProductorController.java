@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -97,5 +98,14 @@ public class ProductorController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         productorService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/foto")
+    public ResponseEntity<Map<String, String>> subirFoto(
+            @PathVariable Long id,
+            @RequestParam("archivo") MultipartFile archivo) {
+
+        String url = productorService.guardarFoto(id, archivo);
+        return ResponseEntity.ok(Map.of("fotoUrl", url));
     }
 }

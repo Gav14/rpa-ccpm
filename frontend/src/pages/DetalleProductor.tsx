@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { productoresApi } from '../api';
 import type { ProductorResponse, ApiError } from '../types';
+import SubirFoto from '../components/SubirFoto'; 
 
 function DetalleProductor() {
     const { id } = useParams<{ id: string }>();
@@ -46,6 +47,13 @@ function DetalleProductor() {
         }
     };
 
+    // Función que se ejecuta cuando SubirFoto termina exitosamente
+    const handleFotoSubida = (url: string) => {
+        if (productor) {
+            setProductor({ ...productor, fotoUrl: url });
+        }
+    };
+
     if (cargando) return <p className="estado-carga">Cargando productor...</p>;
     if (error) return <div className="estado-error"><p>{error}</p></div>;
     if (!productor) return null;
@@ -71,7 +79,20 @@ function DetalleProductor() {
                 </div>
             </div>
 
+            {/* Grid de 3 columnas (se adapta según el tamaño de pantalla) */}
             <div className="detalle-grid">
+
+                {/* NUEVA COLUMNA: FOTO */}
+                <section className="detalle-card">
+                    <h2>Foto de perfil</h2>
+                    <SubirFoto
+                        productorId={p.id}
+                        fotoActual={p.fotoUrl}
+                        onFotoSubida={handleFotoSubida}
+                    />
+                </section>
+
+                {/* COLUMNA 1: DATOS PERSONALES */}
                 <section className="detalle-card">
                     <h2>Datos personales</h2>
                     <dl className="detalle-list">
@@ -82,6 +103,7 @@ function DetalleProductor() {
                     </dl>
                 </section>
 
+                {/* COLUMNA 2: UBICACIÓN */}
                 <section className="detalle-card">
                     <h2>Ubicación</h2>
                     <dl className="detalle-list">
@@ -111,30 +133,30 @@ function DetalleProductor() {
                     <p className="estado-vacio">Sin familiares registrados.</p>
                 ) : (
                     <div className="tabla-wrapper">
-                    <table className="tabla">
-                        <thead>
-                        <tr>
-                            <th>Apellido</th>
-                            <th>Nombre</th>
-                            <th>Parentesco</th>
-                            <th>Sexo</th>
-                            <th>DNI</th>
-                            <th>Fecha nac.</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {p.familiares.map((f) => (
-                            <tr key={f.id}>
-                                <td>{f.apellido}</td>
-                                <td>{f.nombre}</td>
-                                <td>{f.parentesco}</td>
-                                <td>{f.sexo}</td>
-                                <td>{f.dni || '—'}</td>
-                                <td>{f.fechaNacimiento || '—'}</td>
+                        <table className="tabla">
+                            <thead>
+                            <tr>
+                                <th>Apellido</th>
+                                <th>Nombre</th>
+                                <th>Parentesco</th>
+                                <th>Sexo</th>
+                                <th>DNI</th>
+                                <th>Fecha nac.</th>
                             </tr>
-                        ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            {p.familiares.map((f) => (
+                                <tr key={f.id}>
+                                    <td>{f.apellido}</td>
+                                    <td>{f.nombre}</td>
+                                    <td>{f.parentesco}</td>
+                                    <td>{f.sexo}</td>
+                                    <td>{f.dni || '—'}</td>
+                                    <td>{f.fechaNacimiento || '—'}</td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </table>
                     </div>
                 )}
             </section>

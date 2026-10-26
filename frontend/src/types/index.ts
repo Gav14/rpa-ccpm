@@ -79,6 +79,7 @@ export interface ProductorResponse {
     domicilio?: string;
     cultivos: string[]; // nombres, no IDs
     familiares: FamiliarResponse[];
+    fotoUrl?: string;
 }
 
 // ============================================================
