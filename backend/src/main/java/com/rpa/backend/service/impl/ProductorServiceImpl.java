@@ -14,7 +14,6 @@ import com.rpa.backend.repository.CultivoRepository;
 import com.rpa.backend.repository.ProductorRepository;
 import com.rpa.backend.repository.ProductorSpecification;
 import com.rpa.backend.service.ProductorService;
-import jakarta.persistence.criteria.Path;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -183,13 +182,21 @@ public class ProductorServiceImpl implements ProductorService {
 
     private ProductorResponse aResponse(Productor p) {
         return new ProductorResponse(
-                p.getId(), p.getApellido(), p.getNombre(), p.getDni(), p.getSexo(),
-                p.getTituloMaximo(), p.getFechaNacimiento(), p.getDepartamento(),
-                p.getMunicipio(), p.getDomicilio(),
+                p.getId(),
+                p.getApellido(),
+                p.getNombre(),
+                p.getDni(),
+                p.getSexo(),
+                p.getTituloMaximo(),
+                p.getFechaNacimiento(),
+                p.getDepartamento(),
+                p.getMunicipio(),
+                p.getDomicilio(),
                 p.getCultivos().stream().map(Cultivo::getNombre).toList(),
                 p.getFamiliares().stream().map(f -> new FamiliarResponse(
                         f.getId(), f.getApellido(), f.getNombre(), f.getSexo(), f.getDni(),
-                        f.getFechaNacimiento(), f.getParentesco())).toList()
+                        f.getFechaNacimiento(), f.getParentesco())).toList(),
+                p.getFotoUrl()
         );
     }
 }

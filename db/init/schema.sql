@@ -8,7 +8,8 @@ CREATE TABLE productor (
     fecha_nacimiento DATE         NOT NULL,
     departamento     VARCHAR(100) NOT NULL,
     municipio        VARCHAR(100) NOT NULL,
-    domicilio        VARCHAR(200)
+    domicilio        VARCHAR(200),
+    foto_url         VARCHAR(255)
 );
 
 CREATE TABLE cultivo (
